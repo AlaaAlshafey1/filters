@@ -2877,6 +2877,7 @@ namespace App\Models {
     /**
      * App\Models\Product
      *
+     * @property bool|null $is_tecnology
      * @property \Illuminate\Support\Carbon|null $updated_at
      * @property \Illuminate\Support\Carbon|null $created_at
      * @property mixed $category_id
@@ -2908,6 +2909,7 @@ namespace App\Models {
      * @method static \Illuminate\Database\Eloquent\Builder<Product>|Product whereCategoryId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Product>|Product whereCreatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Product>|Product whereUpdatedAt($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Product>|Product whereIsTecnology($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Product>|Product newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Product>|Product newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Product>|Product query()
