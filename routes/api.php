@@ -6,13 +6,13 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\HomeController;
 use App\Http\Controllers\API\QuestionController;
 use App\Http\Controllers\API\AnswerController;
-use App\Http\Controllers\Api\BlogController;
-use App\Http\Controllers\Api\CategoryController;
-use App\Http\Controllers\Api\CompanyDetailController;
-use App\Http\Controllers\Api\ContactUsController;
-use App\Http\Controllers\Api\ProductController;
-use App\Http\Controllers\Api\ServicesFaqsController;
-use App\Http\Controllers\Api\SettingsController;
+use App\Http\Controllers\API\BlogController;
+use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\CompanyDetailController;
+use App\Http\Controllers\API\ContactUsController;
+use App\Http\Controllers\API\ProductController;
+use App\Http\Controllers\API\ServicesFaqsController;
+use App\Http\Controllers\API\SettingsController;
 use App\Http\Controllers\API\SocialAuthController;
 
 Route::get('/user', function (Request $request) {
