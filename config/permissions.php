@@ -89,6 +89,13 @@ return [
         'services_delete',
        ],
        
+       'employees' => [
+        'employees_view',
+        'employees_create',
+        'employees_edit',
+        'employees_delete',
+       ],
+       
 
 
 

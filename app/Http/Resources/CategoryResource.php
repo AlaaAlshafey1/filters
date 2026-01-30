@@ -15,6 +15,7 @@ class CategoryResource extends JsonResource
             'id'   => $this->id,
             'name' => $this->{"name_$locale"},
             'slug' => $this->slug,
+            'is_home' => $this->is_home,
 
             'description' => $this->{"description_$locale"},
 

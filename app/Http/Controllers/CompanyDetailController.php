@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CompanyDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Models\CompanyDetail;
+use App\Models\CompanySection;
 
 class CompanyDetailController extends Controller
 {
@@ -19,69 +20,167 @@ class CompanyDetailController extends Controller
         return view('company_details.create');
     }
 
-    public function store(Request $request)
-    {
-        $data = $request->validate([
-            'section_key'    => 'required|string|max:255|unique:company_details,section_key',
-            'title_ar'       => 'nullable|string|max:255',
-            'title_en'       => 'nullable|string|max:255',
-            'description_ar' => 'nullable|string',
-            'description_en' => 'nullable|string',
-            'images.*'       => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
-            'video_url'      => 'nullable|url',
-            'is_active'      => 'nullable|boolean'
-        ]);
 
-        if($request->hasFile('images')){
-            $images = [];
-            foreach($request->file('images') as $image){
-                $path = $image->store('company_details', 'public'); // تخزين في storage/app/public/company_details
-                $images[] = $path;
-            }
-        $data['images'] = $images;
+public function store(Request $request)
+{
+    /* ================= MAIN ABOUT ================= */
+    CompanyDetail::updateOrCreate(
+        ['section_key' => 'about_main'],
+        $request->main
+    );
+
+    /* ================= VISIONS ================= */
+    if ($request->filled('visions')) {
+        foreach ($request->visions as $index => $vision) {
+            CompanySection::create([
+                'type' => 'vision',
+                'title_ar' => $vision['title_ar'] ?? null,
+                'title_en' => $vision['title_en'] ?? null,
+                'description_ar' => $vision['description_ar'] ?? null,
+                'description_en' => $vision['description_en'] ?? null,
+                'order' => $index,
+                'is_active' => 1
+            ]);
         }
-        $data['is_active'] = $request->has('is_active') ? 1 : 0;
-
-        CompanyDetail::create($data);
-
-        return redirect()->route('company-details.index')->with('success','تمت الإضافة');
     }
 
-    public function edit(CompanyDetail $companyDetail)
-    {
-        return view('company_details.edit', compact('companyDetail'));
+    /* ================= EXTRA CONTENT ================= */
+    if ($request->filled('contents')) {
+        foreach ($request->contents as $index => $content) {
+            CompanySection::create([
+                'type' => 'content',
+                'title_ar' => $content['title_ar'],
+                'title_en' => $content['title_en'],
+                'description_ar' => $content['description_ar'],
+                'description_en' => $content['description_en'],
+                'order' => $index,
+                'is_active' => 1
+            ]);
+        }
     }
 
-    public function update(Request $request, CompanyDetail $companyDetail)
-    {
-        $data = $request->validate([
-            'title_ar'       => 'nullable|string|max:255',
-            'title_en'       => 'nullable|string|max:255',
-            'description_ar' => 'nullable|string',
-            'description_en' => 'nullable|string',
-            'images.*'       => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
-            'video_url'      => 'nullable|url',
-            'is_active'      => 'nullable|boolean'
-        ]);
-
-        // احتفظ بالصور القديمة (بدون json_decode)
-        $existingImages = $companyDetail->images ?? [];
-
-        // إضافة صور جديدة
-        if($request->hasFile('images')){
-            foreach($request->file('images') as $image){
-                $path = $image->store('company_details', 'public');
-                $existingImages[] = $path;
-            }
+    /* ================= IMAGES + VIDEO ================= */
+    $images = [];
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $img) {
+            $images[] = $img->store('about','public');
         }
+    }
 
-        $data['images'] = $existingImages; // لا تحتاج json_encode لأن الـ Model سيقوم بالتحويل تلقائيًا
-        $data['is_active'] = $request->has('is_active') ? 1 : 0;
+    CompanyDetail::updateOrCreate(
+        ['section_key' => 'about_media'],
+        [
+            'images' => $images,
+            'video_url' => $request->video['url'] ?? null
+        ]
+    );
 
-        $companyDetail->update($data);
+    return redirect()->route('company-details.index')
+        ->with('success','تم حفظ صفحة About بنجاح');
+}
 
-        return redirect()->route('company-details.index')->with('success','تم التعديل');
+public function edit(CompanyDetail $companyDetail)
+{
+    $visions = CompanySection::where('type','vision')
+        ->orderBy('order')
+        ->get();
+
+    $contents = CompanySection::where('type','content')
+        ->orderBy('order')
+        ->get();
+
+    return view('company_details.edit', compact(
+        'companyDetail',
+        'visions',
+        'contents'
+    ));
+}
+
+
+
+public function update(Request $request, CompanyDetail $companyDetail)
+{
+    /* ================= VALIDATION ================= */
+    $request->validate([
+        'title_ar' => 'nullable|string|max:255',
+        'title_en' => 'nullable|string|max:255',
+        'description_ar' => 'nullable|string',
+        'description_en' => 'nullable|string',
+        'video_url' => 'nullable|url',
+
+        'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+
+        'visions.*.title_ar' => 'nullable|string|max:255',
+        'visions.*.title_en' => 'nullable|string|max:255',
+        'visions.*.description_ar' => 'nullable|string',
+        'visions.*.description_en' => 'nullable|string',
+
+        'contents.*.title_ar' => 'nullable|string|max:255',
+        'contents.*.title_en' => 'nullable|string|max:255',
+        'contents.*.description_ar' => 'nullable|string',
+        'contents.*.description_en' => 'nullable|string',
+    ]);
+
+    /* ================= MAIN ABOUT ================= */
+    $companyDetail->update([
+        'title_ar' => $request->title_ar,
+        'title_en' => $request->title_en,
+        'description_ar' => $request->description_ar,
+        'description_en' => $request->description_en,
+        'video_url' => $request->video_url,
+    ]);
+
+    /* ================= IMAGES ================= */
+    $images = $companyDetail->images ?? [];
+
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $image) {
+            $images[] = $image->store('company_details', 'public');
         }
+    }
+
+    $companyDetail->update([
+        'images' => $images
+    ]);
+
+    /* ================= VISIONS ================= */
+    CompanySection::where('type', 'vision')->delete();
+
+    if ($request->filled('visions')) {
+        foreach ($request->visions as $index => $vision) {
+            CompanySection::create([
+                'type' => 'vision',
+                'title_ar' => $vision['title_ar'] ?? null,
+                'title_en' => $vision['title_en'] ?? null,
+                'description_ar' => $vision['description_ar'] ?? null,
+                'description_en' => $vision['description_en'] ?? null,
+                'order' => $index,
+                'is_active' => 1,
+            ]);
+        }
+    }
+
+    /* ================= CONTENT SECTIONS ================= */
+    CompanySection::where('type', 'content')->delete();
+
+    if ($request->filled('contents')) {
+        foreach ($request->contents as $index => $content) {
+            CompanySection::create([
+                'type' => 'content',
+                'title_ar' => $content['title_ar'] ?? null,
+                'title_en' => $content['title_en'] ?? null,
+                'description_ar' => $content['description_ar'] ?? null,
+                'description_en' => $content['description_en'] ?? null,
+                'order' => $index,
+                'is_active' => 1,
+            ]);
+        }
+    }
+
+    return redirect()
+        ->route('company-details.edit', $companyDetail->id)
+        ->with('success', 'تم تحديث صفحة About بنجاح');
+}
 public function destroy(CompanyDetail $companyDetail)
 {
     $images = $companyDetail->images;

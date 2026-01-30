@@ -38,6 +38,8 @@ class CategoryController extends Controller
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('categories', 'public');
         }
+        $data['is_home'] = $request->has('is_home'); // true إذا تم تحديده
+
         Category::create($data);
 
         return redirect()->route('categories.index')
@@ -72,6 +74,7 @@ class CategoryController extends Controller
 
                 $data['image'] = $request->file('image')->store('categories', 'public');
             }
+                    $data['is_home'] = $request->has('is_home'); // true إذا تم تحديده
 
         $category->update($data);
 

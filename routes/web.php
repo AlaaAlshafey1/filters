@@ -9,6 +9,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyDetailController;
 use App\Http\Controllers\CompanySectionController;
 use App\Http\Controllers\ContactUsController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ExclusiveDistributorController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\ProductsController;
@@ -39,6 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('products', ProductsController::class);
     Route::resource('faqs', FaqController::class);
     Route::resource('services', ServiceController::class);
+    Route::resource('employees', EmployeeController::class);
 
     Route::delete(
         '/product-images/{image}',

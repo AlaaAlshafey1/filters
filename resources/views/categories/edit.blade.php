@@ -73,6 +73,14 @@ input.form-control, select.form-select { border-radius: 10px; padding: 10px 14px
 
                 <input type="file" name="image" class="form-control">
             </div>
+            
+            <div class="col-md-12 mt-3">
+                <div class="form-check">
+                    <input type="checkbox" name="is_home" class="form-check-input" id="is_home"
+                        value="1" {{ old('is_home', $category->is_home ?? false) ? 'checked' : '' }}>
+                    <label class="form-check-label" for="is_home">عرض في الصفحة الرئيسية</label>
+                </div>
+            </div>
 
             </div>
         </div>

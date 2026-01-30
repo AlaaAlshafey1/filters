@@ -22,6 +22,7 @@ Route::get('/user', function (Request $request) {
 
 // ------------------ AUTH ------------------
 Route::get('/home', [HomeController::class, 'index']);
+Route::get('/about', [HomeController::class, 'aboutUs']);
 Route::get('/settings', [SettingsController::class, 'index']);
 
 
