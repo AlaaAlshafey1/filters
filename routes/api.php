@@ -14,6 +14,7 @@ use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\ServicesFaqsController;
 use App\Http\Controllers\API\SettingsController;
 use App\Http\Controllers\API\SocialAuthController;
+use App\Http\Controllers\API\LegalController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -46,4 +47,12 @@ Route::get('services-faqs', [ServicesFaqsController::class, 'index']);
 // Contact Us
 Route::post('contact', [ContactUsController::class, 'store']);
 Route::get('company-details/{section_key}', [CompanyDetailController::class, 'index']);
+
+// Legal Pages
+Route::prefix('legal')->group(function () {
+    Route::get('/privacy', [LegalController::class, 'privacy']);
+    Route::get('/terms', [LegalController::class, 'terms']);
+    Route::get('/cookies', [LegalController::class, 'cookies']);
+    Route::get('/all', [LegalController::class, 'all']);
+});
 

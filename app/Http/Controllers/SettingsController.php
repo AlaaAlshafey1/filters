@@ -11,7 +11,7 @@ class SettingsController extends Controller
 {
     public function index()
     {
-        $settings = Setting::all()->pluck('value','key')->toArray();
+        $settings = Setting::all()->pluck('value', 'key')->toArray();
         return view('settings.index', compact('settings'));
     }
 
@@ -27,30 +27,33 @@ class SettingsController extends Controller
             'twitter' => 'nullable|url|max:255',
             'instagram' => 'nullable|url|max:255',
             'linkedin' => 'nullable|url|max:255',
+            'privacy_policy' => 'nullable|string',
+            'terms_conditions' => 'nullable|string',
+            'cookies_policy' => 'nullable|string',
         ]);
 
         // Handle images
         foreach (['logo', 'favicon'] as $imgField) {
-            if($request->hasFile($imgField)){
+            if ($request->hasFile($imgField)) {
                 $file = $request->file($imgField);
                 $path = $file->store('settings', 'public');
 
                 // Delete old if exists
                 $old = Setting::where('key', $imgField)->first();
-                if($old && $old->value){
+                if ($old && $old->value) {
                     Storage::disk('public')->delete($old->value);
                 }
 
-                Setting::updateOrCreate(['key'=>$imgField], ['value'=>$path]);
+                Setting::updateOrCreate(['key' => $imgField], ['value' => $path]);
             }
         }
 
-        foreach(['phone','email','address','facebook','twitter','instagram','linkedin'] as $field){
-            if(isset($data[$field])){
-                Setting::updateOrCreate(['key'=>$field], ['value'=>$data[$field]]);
+        foreach (['phone', 'email', 'address', 'facebook', 'twitter', 'instagram', 'linkedin', 'privacy_policy', 'terms_conditions', 'cookies_policy'] as $field) {
+            if (isset($data[$field])) {
+                Setting::updateOrCreate(['key' => $field], ['value' => $data[$field]]);
             }
         }
 
-        return redirect()->back()->with('success','تم تحديث الإعدادات');
+        return redirect()->back()->with('success', 'تم تحديث الإعدادات');
     }
 }
