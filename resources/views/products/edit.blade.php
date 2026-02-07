@@ -2,225 +2,321 @@
 @section('title', 'تعديل المنتج')
 
 @section('css')
-<style>
-    .product-form-card {
-        background-color: #fff;
-        border-radius: 15px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        padding: 25px;
-    }
-    .form-section-title {
-        font-size: 16px;
-        font-weight: 600;
-        color: #0d6efd;
-        margin-bottom: 10px;
-        cursor: pointer;
-    }
-    .section-content {
-        display: none;
-        margin-bottom: 20px;
-        border: 1px solid #e9ecef;
-        padding: 15px;
-        border-radius: 10px;
-    }
-    .repeater-item {
-        border: 1px dashed #ddd;
-        padding: 10px;
-        margin-bottom: 10px;
-        border-radius: 8px;
-    }
-    .img-box {
-        position: relative;
-        display: inline-block;
-        margin: 5px;
-    }
-    .img-box img {
-        width: 120px;
-        height: 120px;
-        object-fit: cover;
-        border-radius: 8px;
-        border: 1px solid #ddd;
-    }
-</style>
+    <style>
+        .product-form-card {
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+        }
+
+        .form-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0d6efd;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .section-content {
+            display: none;
+            margin-bottom: 20px;
+            border: 1px solid #e9ecef;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .repeater-item {
+            border: 1px dashed #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .remove-item-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            z-index: 99;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .img-box {
+            position: relative;
+            display: inline-block;
+            margin: 5px;
+        }
+
+        .img-box img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+    </style>
 @endsection
 
 @section('page-header')
-<div class="page-header py-3 px-3 mt-3 mb-3 bg-white shadow-sm rounded-3 border d-flex justify-content-between align-items-center">
-    <div>
-        <h4 class="fw-bold text-primary">
-            <i class="bx bx-edit"></i> تعديل المنتج
-        </h4>
+    <div
+        class="page-header py-3 px-3 mt-3 mb-3 bg-white shadow-sm rounded-3 border d-flex justify-content-between align-items-center">
+        <div>
+            <h4 class="fw-bold text-primary">
+                <i class="bx bx-edit"></i> تعديل المنتج
+            </h4>
+        </div>
+        <a href="{{ route('products.index') }}" class="btn btn-secondary btn-sm">
+            رجوع
+        </a>
     </div>
-    <a href="{{ route('products.index') }}" class="btn btn-secondary btn-sm">
-        رجوع
-    </a>
-</div>
 @endsection
 
 @section('content')
-<div class="product-form-card">
+    <div class="product-form-card">
 
-<form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
-@csrf
-@method('PUT')
+        <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
 
-{{-- ================= البيانات الأساسية ================= --}}
-<div class="mb-3">
-    <label class="form-label">اسم المنتج (عربي)</label>
-    <input type="text" name="name_ar" class="form-control" value="{{ $product->name_ar }}" required>
-</div>
-
-<div class="mb-3">
-    <label class="form-label">اسم المنتج (إنجليزي)</label>
-    <input type="text" name="name_en" class="form-control" value="{{ $product->name_en }}">
-</div>
-
-<div class="mb-3">
-    <label class="form-label">الوصف العام (عربي)</label>
-    <textarea name="description_ar" class="form-control" rows="4">{{ $product->description_ar }}</textarea>
-</div>
-
-<div class="mb-3">
-    <label class="form-label">الوصف العام (إنجليزي)</label>
-    <textarea name="description_en" class="form-control" rows="4">{{ $product->description_en }}</textarea>
-</div>
-
-<div class="mb-3">
-    <label class="form-label">الفئة</label>
-    <select name="category_id" class="form-select" required>
-        @foreach($categories as $category)
-            <option value="{{ $category->id }}" 
-                {{ $product->category_id == $category->id ? 'selected' : '' }}>
-                {{ $category->name_ar }}
-            </option>
-        @endforeach
-    </select>
-</div>
-{{-- ================= Technology ================= --}}
-<div class="mb-3">
-    <label class="form-label">هل هذا منتج تكنولوجي؟</label>
-    <select name="is_tecnology" class="form-select">
-        <option value="0" {{ $product->is_tecnology == 0 ? 'selected' : '' }}>لا</option>
-        <option value="1" {{ $product->is_tecnology == 1 ? 'selected' : '' }}>نعم</option>
-    </select>
-</div>
-
-{{-- ================= الصورة الرئيسية ================= --}}
-<div class="mb-3">
-    <label class="form-label">الصورة الرئيسية</label><br>
-
-    @if($product->main_image)
-        <img src="{{ asset('storage/'.$product->main_image) }}" width="120" class="mb-2 rounded border">
-    @endif
-
-    <input type="file" name="main_image" class="form-control" accept="image/*">
-</div>
-
-{{-- ================= صور الجاليري ================= --}}
-<div class="mb-3">
-    <div class="form-section-title" onclick="toggleSection('gallery')">
-        صور إضافية (Gallery)
-    </div>
-
-    <div class="section-content" id="gallery">
-
-        {{-- الصور الحالية --}}
-        @if($product->images->count())
+            {{-- ================= البيانات الأساسية ================= --}}
             <div class="mb-3">
-                @foreach($product->images as $image)
-                    <div class="img-box">
-                        <img src="{{ asset('storage/'.$image->image) }}">
-                        <form action="{{ route('product-images.destroy', $image->id) }}"
-                            method="POST"
-                            onsubmit="return confirm('حذف الصورة؟')"
-                            class="position-absolute top-0 end-0">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-sm btn-danger">×</button>
-                        </form>
+                <label class="form-label">اسم المنتج (عربي)</label>
+                <input type="text" name="name_ar" class="form-control" value="{{ $product->name_ar }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">اسم المنتج (إنجليزي)</label>
+                <input type="text" name="name_en" class="form-control" value="{{ $product->name_en }}">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">الوصف العام (عربي)</label>
+                <textarea name="description_ar" class="form-control" rows="4">{{ $product->description_ar }}</textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">الوصف العام (إنجليزي)</label>
+                <textarea name="description_en" class="form-control" rows="4">{{ $product->description_en }}</textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">الفئة</label>
+                <select name="category_id" class="form-select" required>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" {{ $product->category_id == $category->id ? 'selected' : '' }}>
+                            {{ $category->name_ar }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            {{-- ================= Technology ================= --}}
+            <div class="mb-3">
+                <label class="form-label">هل هذا منتج تكنولوجي؟</label>
+                <select name="is_tecnology" class="form-select">
+                    <option value="0" {{ $product->is_tecnology == 0 ? 'selected' : '' }}>لا</option>
+                    <option value="1" {{ $product->is_tecnology == 1 ? 'selected' : '' }}>نعم</option>
+                </select>
+            </div>
+
+            {{-- ================= الصورة الرئيسية ================= --}}
+            <div class="mb-3">
+                <label class="form-label">الصورة الرئيسية</label><br>
+
+                @if($product->main_image)
+                    <img src="{{ asset('storage/' . $product->main_image) }}" width="120" class="mb-2 rounded border">
+                @endif
+
+                <input type="file" name="main_image" class="form-control" accept="image/*">
+            </div>
+
+            {{-- ================= صور الجاليري ================= --}}
+            <div class="mb-3">
+                <div class="form-section-title" onclick="toggleSection('gallery')">
+                    صور إضافية (Gallery)
+                </div>
+
+                <div class="section-content" id="gallery">
+
+                    {{-- الصور الحالية --}}
+                    @if($product->images->count())
+                        <div class="mb-3">
+                            @foreach($product->images as $image)
+                                <div class="img-box">
+                                    <img src="{{ asset('storage/' . $image->image) }}">
+                                    <form action="{{ route('product-images.destroy', $image->id) }}" method="POST"
+                                        onsubmit="return confirm('حذف الصورة؟')" class="position-absolute top-0 end-0">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-sm btn-danger">×</button>
+                                    </form>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+
+                    {{-- إضافة صور جديدة --}}
+                    <div id="gallery-repeater">
+                        <div class="repeater-item">
+                            <input type="file" name="images[]" class="form-control" accept="image/*">
+                        </div>
                     </div>
-                @endforeach
+
+                    <button type="button" class="btn btn-sm btn-info mt-2" onclick="addGalleryImage()">
+                        إضافة صورة
+                    </button>
+                </div>
             </div>
-        @endif
 
-        {{-- إضافة صور جديدة --}}
-        <div id="gallery-repeater">
-            <div class="repeater-item">
-                <input type="file" name="images[]" class="form-control" accept="image/*">
+            {{-- ================= Product Features ================= --}}
+            <div class="mb-3">
+                <div class="form-section-title" onclick="toggleSection('product-features')">
+                    <i class="bx bx-list-plus"></i> مميزات المنتج (Features)
+                </div>
+
+                <div class="section-content" id="product-features" style="display: block;">
+                    <div id="features-repeater">
+                        @forelse($product->features as $index => $feature)
+                            <div class="repeater-item bg-light p-3 position-relative mb-3">
+                                <button type="button" class="btn btn-sm btn-danger remove-item-btn"
+                                    onclick="removeFeature(this)">×</button>
+                                <div class="row g-2">
+                                    <div class="col-md-6">
+                                        <label class="form-label">العنوان (عربي)</label>
+                                        <input type="text" name="features[{{ $index }}][title_ar]" class="form-control"
+                                            value="{{ $feature->title_ar }}">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">العنوان (إنجليزي)</label>
+                                        <input type="text" name="features[{{ $index }}][title_en]" class="form-control"
+                                            value="{{ $feature->title_en }}">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">الوصف (عربي)</label>
+                                        <textarea name="features[{{ $index }}][description_ar]" class="form-control"
+                                            rows="2">{{ $feature->description_ar }}</textarea>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">الوصف (إنجليزي)</label>
+                                        <textarea name="features[{{ $index }}][description_en]" class="form-control"
+                                            rows="2">{{ $feature->description_en }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="repeater-item bg-light p-3 position-relative mb-3">
+                                <button type="button" class="btn btn-sm btn-danger remove-item-btn"
+                                    onclick="removeFeature(this)">×</button>
+                                <div class="row g-2">
+                                    <div class="col-md-6">
+                                        <label class="form-label">العنوان (عربي)</label>
+                                        <input type="text" name="features[0][title_ar]" class="form-control">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">العنوان (إنجليزي)</label>
+                                        <input type="text" name="features[0][title_en]" class="form-control">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">الوصف (عربي)</label>
+                                        <textarea name="features[0][description_ar]" class="form-control" rows="2"></textarea>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">الوصف (إنجليزي)</label>
+                                        <textarea name="features[0][description_en]" class="form-control" rows="2"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforelse
+                    </div>
+
+                    <button type="button" class="btn btn-sm btn-info" onclick="addFeature()">
+                        <i class="bx bx-plus"></i> إضافة ميزة إضافية
+                    </button>
+                </div>
             </div>
-        </div>
 
-        <button type="button" class="btn btn-sm btn-info mt-2" onclick="addGalleryImage()">
-            إضافة صورة
-        </button>
+            {{-- ================= PDFs ================= --}}
+            <div class="mb-3">
+                <div class="form-section-title" onclick="toggleSection('pdfs')">
+                    ملفات PDF
+                </div>
+                <div class="section-content" id="pdfs">
+
+                    <input type="file" name="pdf_open_plate" class="form-control mb-2">
+                    <input type="file" name="pdf_offset_hole" class="form-control mb-2">
+                    <input type="file" name="pdf_closed_plate" class="form-control mb-2">
+
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end mt-4">
+                <button class="btn btn-primary">تحديث المنتج</button>
+            </div>
+
+        </form>
     </div>
-</div>
-
-{{-- ================= Eco ================= --}}
-<div class="mb-3">
-    <div class="form-section-title" onclick="toggleSection('eco')">
-        Telas eco-eficientes
-    </div>
-    <div class="section-content" id="eco">
-        <textarea name="eco_description" class="form-control ckeditor">
-            {{ $product->eco_description }}
-        </textarea>
-    </div>
-</div>
-
-{{-- ================= Finishes ================= --}}
-<div class="mb-3">
-    <div class="form-section-title" onclick="toggleSection('finishes')">
-        Acabados
-    </div>
-    <div class="section-content" id="finishes">
-        <textarea name="finishes_description" class="form-control ckeditor">
-            {{ $product->finishes_description }}
-        </textarea>
-    </div>
-</div>
-
-{{-- ================= PDFs ================= --}}
-<div class="mb-3">
-    <div class="form-section-title" onclick="toggleSection('pdfs')">
-        ملفات PDF
-    </div>
-    <div class="section-content" id="pdfs">
-
-        <input type="file" name="pdf_open_plate" class="form-control mb-2">
-        <input type="file" name="pdf_offset_hole" class="form-control mb-2">
-        <input type="file" name="pdf_closed_plate" class="form-control mb-2">
-
-    </div>
-</div>
-
-<div class="d-flex justify-content-end mt-4">
-    <button class="btn btn-primary">تحديث المنتج</button>
-</div>
-
-</form>
-</div>
 @endsection
 
 @section('js')
-<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 
-<script>
-function toggleSection(id) {
-    let el = document.getElementById(id);
-    el.style.display = el.style.display === 'block' ? 'none' : 'block';
-}
+    <script>
+        function toggleSection(id) {
+            let el = document.getElementById(id);
+            el.style.display = el.style.display === 'block' ? 'none' : 'block';
+        }
 
-function addGalleryImage() {
-    let container = document.getElementById('gallery-repeater');
-    let div = document.createElement('div');
-    div.classList.add('repeater-item');
-    div.innerHTML = `<input type="file" name="images[]" class="form-control" accept="image/*">`;
-    container.appendChild(div);
-}
+        function addGalleryImage() {
+            let container = document.getElementById('gallery-repeater');
+            let div = document.createElement('div');
+            div.classList.add('repeater-item');
+            div.innerHTML = `<input type="file" name="images[]" class="form-control" accept="image/*">`;
+            container.appendChild(div);
+        }
 
-document.querySelectorAll('.ckeditor').forEach(el => {
-    ClassicEditor.create(el);
-});
-</script>
+        let featureIndex = {{ $product->features->count() > 0 ? $product->features->count() : 1 }};
+        function addFeature() {
+            let container = document.getElementById('features-repeater');
+            let div = document.createElement('div');
+            div.classList.add('repeater-item', 'bg-light', 'p-3', 'position-relative', 'mb-3');
+            div.innerHTML = `
+                            <button type="button" class="btn btn-sm btn-danger remove-item-btn" onclick="removeFeature(this)">×</button>
+                            <div class="row g-2">
+                                <div class="col-md-6">
+                                    <label class="form-label">العنوان (عربي)</label>
+                                    <input type="text" name="features[${featureIndex}][title_ar]" class="form-control">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">العنوان (إنجليزي)</label>
+                                    <input type="text" name="features[${featureIndex}][title_en]" class="form-control">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">الوصف (عربي)</label>
+                                    <textarea name="features[${featureIndex}][description_ar]" class="form-control" rows="2"></textarea>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">الوصف (إنجليزي)</label>
+                                    <textarea name="features[${featureIndex}][description_en]" class="form-control" rows="2"></textarea>
+                                </div>
+                            </div>
+                        `;
+            container.appendChild(div);
+            featureIndex++;
+        }
+
+        function removeFeature(btn) {
+            btn.closest('.repeater-item').remove();
+        }
+
+        document.querySelectorAll('.ckeditor').forEach(el => {
+            ClassicEditor.create(el);
+        });
+    </script>
 @endsection

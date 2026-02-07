@@ -11,7 +11,7 @@ class ProductController extends Controller
 {
     public function show($id)
     {
-        $product = Product::with('category','images')->findOrFail($id);
+        $product = Product::with('category', 'images', 'features')->findOrFail($id);
         return response()->json([
             'success' => true,
             'data' => new ProductResource($product)
@@ -20,7 +20,7 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
-        $products = Product::with('category','images')->get();
+        $products = Product::with('category', 'images', 'features')->get();
 
         return response()->json([
             'success' => true,

@@ -30,6 +30,12 @@ class SettingsController extends Controller
             'privacy_policy' => 'nullable|string',
             'terms_conditions' => 'nullable|string',
             'cookies_policy' => 'nullable|string',
+            'privacy_policy_ar' => 'nullable|string',
+            'terms_conditions_ar' => 'nullable|string',
+            'cookies_policy_ar' => 'nullable|string',
+            'privacy_policy_en' => 'nullable|string',
+            'terms_conditions_en' => 'nullable|string',
+            'cookies_policy_en' => 'nullable|string',
         ]);
 
         // Handle images
@@ -48,7 +54,26 @@ class SettingsController extends Controller
             }
         }
 
-        foreach (['phone', 'email', 'address', 'facebook', 'twitter', 'instagram', 'linkedin', 'privacy_policy', 'terms_conditions', 'cookies_policy'] as $field) {
+        $fields = [
+            'phone',
+            'email',
+            'address',
+            'facebook',
+            'twitter',
+            'instagram',
+            'linkedin',
+            'privacy_policy',
+            'terms_conditions',
+            'cookies_policy',
+            'privacy_policy_ar',
+            'terms_conditions_ar',
+            'cookies_policy_ar',
+            'privacy_policy_en',
+            'terms_conditions_en',
+            'cookies_policy_en'
+        ];
+
+        foreach ($fields as $field) {
             if (isset($data[$field])) {
                 Setting::updateOrCreate(['key' => $field], ['value' => $data[$field]]);
             }

@@ -87,8 +87,6 @@ class SliderFeatureController extends Controller
     public function destroy($id)
     {
         $feature = SliderFeature::findOrFail($id);
-
-        Storage::disk('public')->delete($feature->image);
         $feature->delete();
 
         return redirect()

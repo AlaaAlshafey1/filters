@@ -29,17 +29,21 @@ class ProductsController extends Controller
             'name_en' => 'nullable',
             'description_ar' => 'nullable',
             'description_en' => 'nullable',
-            'eco_description' => 'nullable',
-            'finishes_description' => 'nullable',
             'category_id' => 'required|exists:categories,id',
 
             'main_image' => 'nullable|image',
             'images.*' => 'nullable|image',
 
+            'features' => 'nullable|array',
+            'features.*.title_ar' => 'required_with:features.*.description_ar',
+            'features.*.title_en' => 'nullable',
+            'features.*.description_ar' => 'nullable',
+            'features.*.description_en' => 'nullable',
+
             'pdf_open_plate' => 'nullable|mimes:pdf',
             'pdf_offset_hole' => 'nullable|mimes:pdf',
             'pdf_closed_plate' => 'nullable|mimes:pdf',
-            'is_tecnology'=>'nullable'
+            'is_tecnology' => 'nullable'
         ]);
 
         if ($request->hasFile('main_image')) {
@@ -47,7 +51,7 @@ class ProductsController extends Controller
                 ->store('products/main', 'public');
         }
 
-        foreach (['pdf_open_plate','pdf_offset_hole','pdf_closed_plate'] as $pdf) {
+        foreach (['pdf_open_plate', 'pdf_offset_hole', 'pdf_closed_plate'] as $pdf) {
             if ($request->hasFile($pdf)) {
                 $data[$pdf] = $request->file($pdf)
                     ->store('products/pdfs', 'public');
@@ -56,14 +60,12 @@ class ProductsController extends Controller
 
         $product = Product::create($data);
 
-        // Gallery images
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $index => $image) {
-                ProductImage::create([
-                    'product_id' => $product->id,
-                    'image' => $image->store('products/gallery', 'public'),
-                    'sort_order' => $index
-                ]);
+        // Features
+        if ($request->has('features')) {
+            foreach ($request->features as $feature) {
+                if (!empty($feature['title_ar'])) {
+                    $product->features()->create($feature);
+                }
             }
         }
 
@@ -76,7 +78,7 @@ class ProductsController extends Controller
         $product = Product::with('images')->findOrFail($id);
         $categories = Category::all();
 
-        return view('products.edit', compact('product','categories'));
+        return view('products.edit', compact('product', 'categories'));
     }
 
     public function update(Request $request, $id)
@@ -88,17 +90,21 @@ class ProductsController extends Controller
             'name_en' => 'nullable',
             'description_ar' => 'nullable',
             'description_en' => 'nullable',
-            'eco_description' => 'nullable',
-            'finishes_description' => 'nullable',
             'category_id' => 'required|exists:categories,id',
 
             'main_image' => 'nullable|image',
             'images.*' => 'nullable|image',
 
+            'features' => 'nullable|array',
+            'features.*.title_ar' => 'required_with:features.*.description_ar',
+            'features.*.title_en' => 'nullable',
+            'features.*.description_ar' => 'nullable',
+            'features.*.description_en' => 'nullable',
+
             'pdf_open_plate' => 'nullable|mimes:pdf',
             'pdf_offset_hole' => 'nullable|mimes:pdf',
             'pdf_closed_plate' => 'nullable|mimes:pdf',
-            'is_tecnology'=>'nullable'
+            'is_tecnology' => 'nullable'
 
         ]);
 
@@ -112,7 +118,7 @@ class ProductsController extends Controller
         }
 
         // PDFs
-        foreach (['pdf_open_plate','pdf_offset_hole','pdf_closed_plate'] as $pdf) {
+        foreach (['pdf_open_plate', 'pdf_offset_hole', 'pdf_closed_plate'] as $pdf) {
             if ($request->hasFile($pdf)) {
                 if ($product->$pdf) {
                     Storage::disk('public')->delete($product->$pdf);
@@ -135,6 +141,16 @@ class ProductsController extends Controller
             }
         }
 
+        // Sync features
+        $product->features()->delete();
+        if ($request->has('features')) {
+            foreach ($request->features as $feature) {
+                if (!empty($feature['title_ar'])) {
+                    $product->features()->create($feature);
+                }
+            }
+        }
+
         return redirect()->route('products.index')
             ->with('success', 'تم تعديل المنتج بنجاح');
     }
@@ -154,7 +170,7 @@ class ProductsController extends Controller
         $product->delete();
 
         return redirect()->route('products.index')
-            ->with('success','تم حذف المنتج بنجاح');
+            ->with('success', 'تم حذف المنتج بنجاح');
     }
 
     public function destroyImage(ProductImage $image)

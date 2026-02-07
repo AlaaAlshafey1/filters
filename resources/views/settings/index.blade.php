@@ -104,24 +104,44 @@
                 <input type="url" name="linkedin" class="form-control" value="{{ $settings['linkedin'] ?? '' }}">
             </div>
 
-            <div class="form-section-title mt-4">صفحات الخصوصية والشروط</div>
+            <div class="form-section-title mt-4">صفحات الخصوصية والشروط (بالعربية)</div>
 
             <div class="mb-3">
-                <label class="form-label">سياسة الخصوصية</label>
-                <textarea name="privacy_policy" class="form-control"
-                    rows="5">{{ $settings['privacy_policy'] ?? '' }}</textarea>
+                <label class="form-label">سياسة الخصوصية (AR)</label>
+                <textarea name="privacy_policy_ar" class="form-control"
+                    rows="5">{{ $settings['privacy_policy_ar'] ?? ($settings['privacy_policy'] ?? '') }}</textarea>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">الشروط والأحكام</label>
-                <textarea name="terms_conditions" class="form-control"
-                    rows="5">{{ $settings['terms_conditions'] ?? '' }}</textarea>
+                <label class="form-label">الشروط والأحكام (AR)</label>
+                <textarea name="terms_conditions_ar" class="form-control"
+                    rows="5">{{ $settings['terms_conditions_ar'] ?? ($settings['terms_conditions'] ?? '') }}</textarea>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">سياسة الكوكيز</label>
-                <textarea name="cookies_policy" class="form-control"
-                    rows="5">{{ $settings['cookies_policy'] ?? '' }}</textarea>
+                <label class="form-label">سياسة الكوكيز (AR)</label>
+                <textarea name="cookies_policy_ar" class="form-control"
+                    rows="5">{{ $settings['cookies_policy_ar'] ?? ($settings['cookies_policy'] ?? '') }}</textarea>
+            </div>
+
+            <div class="form-section-title mt-4">Legal Pages (English)</div>
+
+            <div class="mb-3">
+                <label class="form-label">Privacy Policy (EN)</label>
+                <textarea name="privacy_policy_en" class="form-control" rows="5"
+                    style="direction: ltr;">{{ $settings['privacy_policy_en'] ?? '' }}</textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Terms & Conditions (EN)</label>
+                <textarea name="terms_conditions_en" class="form-control" rows="5"
+                    style="direction: ltr;">{{ $settings['terms_conditions_en'] ?? '' }}</textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Cookies Policy (EN)</label>
+                <textarea name="cookies_policy_en" class="form-control" rows="5"
+                    style="direction: ltr;">{{ $settings['cookies_policy_en'] ?? '' }}</textarea>
             </div>
 
             <div class="d-flex gap-2">

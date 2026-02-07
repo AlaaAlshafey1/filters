@@ -3220,6 +3220,8 @@ namespace App\Models {
      * @property-read \App\Models\Category $category
      * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductImage> $images
      * @property-read int|null $images_count
+     * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductFeature> $features
+     * @property-read int|null $features_count
      * @method static \Illuminate\Database\Eloquent\Builder<Product>|Product whereId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Product>|Product whereNameAr($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Product>|Product whereNameEn($value)
