@@ -94,9 +94,45 @@
 
                     <div class="col-md-6">
                         <label class="form-label">أيقونة الميزة</label>
-                        <input type="text" name="icon" class="form-control" placeholder="مثال: bx bx-star أو fa fa-heart"
-                            value="{{ old('icon', $feature->icon ?? '') }}" required>
-                        <small class="text-muted">أدخل كود الأيقونة (مثال: bx bx-star)</small>
+                        <select name="icon" class="form-select select2" required>
+                            <option value="" disabled>اختر أيقونة</option>
+                            <optgroup label="Boxicons">
+                                <option value="bx bx-star" {{ old('icon', $feature->icon ?? '') == 'bx bx-star' ? 'selected' : '' }}>Star (bx bx-star)</option>
+                                <option value="bx bx-heart" {{ old('icon', $feature->icon ?? '') == 'bx bx-heart' ? 'selected' : '' }}>Heart (bx bx-heart)</option>
+                                <option value="bx bx-check-circle" {{ old('icon', $feature->icon ?? '') == 'bx bx-check-circle' ? 'selected' : '' }}>Check Circle (bx bx-check-circle)</option>
+                                <option value="bx bx-info-circle" {{ old('icon', $feature->icon ?? '') == 'bx bx-info-circle' ? 'selected' : '' }}>Info Circle (bx bx-info-circle)</option>
+                                <option value="bx bx-cog" {{ old('icon', $feature->icon ?? '') == 'bx bx-cog' ? 'selected' : '' }}>Cog (bx bx-cog)</option>
+                                <option value="bx bx-user" {{ old('icon', $feature->icon ?? '') == 'bx bx-user' ? 'selected' : '' }}>User (bx bx-user)</option>
+                                <option value="bx bx-home" {{ old('icon', $feature->icon ?? '') == 'bx bx-home' ? 'selected' : '' }}>Home (bx bx-home)</option>
+                                <option value="bx bx-bell" {{ old('icon', $feature->icon ?? '') == 'bx bx-bell' ? 'selected' : '' }}>Bell (bx bx-bell)</option>
+                                <option value="bx bx-cart" {{ old('icon', $feature->icon ?? '') == 'bx bx-cart' ? 'selected' : '' }}>Cart (bx bx-cart)</option>
+                                <option value="bx bx-search" {{ old('icon', $feature->icon ?? '') == 'bx bx-search' ? 'selected' : '' }}>Search (bx bx-search)</option>
+                                <option value="bx bx-lock" {{ old('icon', $feature->icon ?? '') == 'bx bx-lock' ? 'selected' : '' }}>Lock (bx bx-lock)</option>
+                                <option value="bx bx-shield" {{ old('icon', $feature->icon ?? '') == 'bx bx-shield' ? 'selected' : '' }}>Shield (bx bx-shield)</option>
+                                <option value="bx bx-trophy" {{ old('icon', $feature->icon ?? '') == 'bx bx-trophy' ? 'selected' : '' }}>Trophy (bx bx-trophy)</option>
+                                <option value="bx bx-medal" {{ old('icon', $feature->icon ?? '') == 'bx bx-medal' ? 'selected' : '' }}>Medal (bx bx-medal)</option>
+                                <option value="bx bx-gift" {{ old('icon', $feature->icon ?? '') == 'bx bx-gift' ? 'selected' : '' }}>Gift (bx bx-gift)</option>
+                            </optgroup>
+                            <optgroup label="FontAwesome">
+                                <option value="fa fa-star" {{ old('icon', $feature->icon ?? '') == 'fa fa-star' ? 'selected' : '' }}>Star (fa fa-star)</option>
+                                <option value="fa fa-heart" {{ old('icon', $feature->icon ?? '') == 'fa fa-heart' ? 'selected' : '' }}>Heart (fa fa-heart)</option>
+                                <option value="fa fa-check" {{ old('icon', $feature->icon ?? '') == 'fa fa-check' ? 'selected' : '' }}>Check (fa fa-check)</option>
+                                <option value="fa fa-info" {{ old('icon', $feature->icon ?? '') == 'fa fa-info' ? 'selected' : '' }}>Info (fa fa-info)</option>
+                                <option value="fa fa-cog" {{ old('icon', $feature->icon ?? '') == 'fa fa-cog' ? 'selected' : '' }}>Cog (fa fa-cog)</option>
+                                <option value="fa fa-user" {{ old('icon', $feature->icon ?? '') == 'fa fa-user' ? 'selected' : '' }}>User (fa fa-user)</option>
+                                <option value="fa fa-home" {{ old('icon', $feature->icon ?? '') == 'fa fa-home' ? 'selected' : '' }}>Home (fa fa-home)</option>
+                                <option value="fa fa-bell" {{ old('icon', $feature->icon ?? '') == 'fa fa-bell' ? 'selected' : '' }}>Bell (fa fa-bell)</option>
+                                <option value="fa fa-shopping-cart" {{ old('icon', $feature->icon ?? '') == 'fa fa-shopping-cart' ? 'selected' : '' }}>Cart (fa fa-shopping-cart)</option>
+                                <option value="fa fa-search" {{ old('icon', $feature->icon ?? '') == 'fa fa-search' ? 'selected' : '' }}>Search (fa fa-search)</option>
+                                <option value="fa fa-phone" {{ old('icon', $feature->icon ?? '') == 'fa fa-phone' ? 'selected' : '' }}>Phone (fa fa-phone)</option>
+                                <option value="fa fa-envelope" {{ old('icon', $feature->icon ?? '') == 'fa fa-envelope' ? 'selected' : '' }}>Envelope (fa fa-envelope)</option>
+                                <option value="fa fa-globe" {{ old('icon', $feature->icon ?? '') == 'fa fa-globe' ? 'selected' : '' }}>Globe (fa fa-globe)</option>
+                            </optgroup>
+                            @if(isset($feature->icon) && !in_array($feature->icon, ['bx bx-star', 'bx bx-heart', 'bx bx-check-circle', 'bx bx-info-circle', 'bx bx-cog', 'bx bx-user', 'bx bx-home', 'bx bx-bell', 'bx bx-cart', 'bx bx-search', 'bx bx-lock', 'bx bx-shield', 'bx bx-trophy', 'bx bx-medal', 'bx bx-gift', 'fa fa-star', 'fa fa-heart', 'fa fa-check', 'fa fa-info', 'fa fa-cog', 'fa fa-user', 'fa fa-home', 'fa fa-bell', 'fa fa-shopping-cart', 'fa fa-search', 'fa fa-phone', 'fa fa-envelope', 'fa fa-globe']))
+                                <option value="{{ $feature->icon }}" selected>{{ $feature->icon }} (Current)</option>
+                            @endif
+                        </select>
+                        <small class="text-muted">اختر أيقونة لتمثيل هذه الميزة</small>
                     </div>
 
                     <div class="col-md-6">

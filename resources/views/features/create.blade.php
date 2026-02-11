@@ -88,9 +88,68 @@
 
                     <div class="col-md-6">
                         <label class="form-label">أيقونة الميزة</label>
-                        <input type="text" name="icon" class="form-control" placeholder="مثال: bx bx-star أو fa fa-heart"
-                            value="{{ old('icon') }}" required>
-                        <small class="text-muted">أدخل كود الأيقونة (مثال: bx bx-star)</small>
+                        <select name="icon" class="form-select select2" required>
+                            <option value="" disabled selected>اختر أيقونة</option>
+                            <optgroup label="Boxicons">
+                                <option value="bx bx-star" {{ old('icon') == 'bx bx-star' ? 'selected' : '' }}>Star (bx
+                                    bx-star)</option>
+                                <option value="bx bx-heart" {{ old('icon') == 'bx bx-heart' ? 'selected' : '' }}>Heart (bx
+                                    bx-heart)</option>
+                                <option value="bx bx-check-circle" {{ old('icon') == 'bx bx-check-circle' ? 'selected' : '' }}>Check Circle (bx bx-check-circle)</option>
+                                <option value="bx bx-info-circle" {{ old('icon') == 'bx bx-info-circle' ? 'selected' : '' }}>
+                                    Info Circle (bx bx-info-circle)</option>
+                                <option value="bx bx-cog" {{ old('icon') == 'bx bx-cog' ? 'selected' : '' }}>Cog (bx bx-cog)
+                                </option>
+                                <option value="bx bx-user" {{ old('icon') == 'bx bx-user' ? 'selected' : '' }}>User (bx
+                                    bx-user)</option>
+                                <option value="bx bx-home" {{ old('icon') == 'bx bx-home' ? 'selected' : '' }}>Home (bx
+                                    bx-home)</option>
+                                <option value="bx bx-bell" {{ old('icon') == 'bx bx-bell' ? 'selected' : '' }}>Bell (bx
+                                    bx-bell)</option>
+                                <option value="bx bx-cart" {{ old('icon') == 'bx bx-cart' ? 'selected' : '' }}>Cart (bx
+                                    bx-cart)</option>
+                                <option value="bx bx-search" {{ old('icon') == 'bx bx-search' ? 'selected' : '' }}>Search (bx
+                                    bx-search)</option>
+                                <option value="bx bx-lock" {{ old('icon') == 'bx bx-lock' ? 'selected' : '' }}>Lock (bx
+                                    bx-lock)</option>
+                                <option value="bx bx-shield" {{ old('icon') == 'bx bx-shield' ? 'selected' : '' }}>Shield (bx
+                                    bx-shield)</option>
+                                <option value="bx bx-trophy" {{ old('icon') == 'bx bx-trophy' ? 'selected' : '' }}>Trophy (bx
+                                    bx-trophy)</option>
+                                <option value="bx bx-medal" {{ old('icon') == 'bx bx-medal' ? 'selected' : '' }}>Medal (bx
+                                    bx-medal)</option>
+                                <option value="bx bx-gift" {{ old('icon') == 'bx bx-gift' ? 'selected' : '' }}>Gift (bx
+                                    bx-gift)</option>
+                            </optgroup>
+                            <optgroup label="FontAwesome">
+                                <option value="fa fa-star" {{ old('icon') == 'fa fa-star' ? 'selected' : '' }}>Star (fa
+                                    fa-star)</option>
+                                <option value="fa fa-heart" {{ old('icon') == 'fa fa-heart' ? 'selected' : '' }}>Heart (fa
+                                    fa-heart)</option>
+                                <option value="fa fa-check" {{ old('icon') == 'fa fa-check' ? 'selected' : '' }}>Check (fa
+                                    fa-check)</option>
+                                <option value="fa fa-info" {{ old('icon') == 'fa fa-info' ? 'selected' : '' }}>Info (fa
+                                    fa-info)</option>
+                                <option value="fa fa-cog" {{ old('icon') == 'fa fa-cog' ? 'selected' : '' }}>Cog (fa fa-cog)
+                                </option>
+                                <option value="fa fa-user" {{ old('icon') == 'fa fa-user' ? 'selected' : '' }}>User (fa
+                                    fa-user)</option>
+                                <option value="fa fa-home" {{ old('icon') == 'fa fa-home' ? 'selected' : '' }}>Home (fa
+                                    fa-home)</option>
+                                <option value="fa fa-bell" {{ old('icon') == 'fa fa-bell' ? 'selected' : '' }}>Bell (fa
+                                    fa-bell)</option>
+                                <option value="fa fa-shopping-cart" {{ old('icon') == 'fa fa-shopping-cart' ? 'selected' : '' }}>Cart (fa fa-shopping-cart)</option>
+                                <option value="fa fa-search" {{ old('icon') == 'fa fa-search' ? 'selected' : '' }}>Search (fa
+                                    fa-search)</option>
+                                <option value="fa fa-phone" {{ old('icon') == 'fa fa-phone' ? 'selected' : '' }}>Phone (fa
+                                    fa-phone)</option>
+                                <option value="fa fa-envelope" {{ old('icon') == 'fa fa-envelope' ? 'selected' : '' }}>
+                                    Envelope (fa fa-envelope)</option>
+                                <option value="fa fa-globe" {{ old('icon') == 'fa fa-globe' ? 'selected' : '' }}>Globe (fa
+                                    fa-globe)</option>
+                            </optgroup>
+                        </select>
+                        <small class="text-muted">اختر أيقونة لتمثيل هذه الميزة</small>
                     </div>
 
                     <div class="col-md-6">
