@@ -152,65 +152,54 @@
 
         function addVision() {
             document.getElementById('visionRepeater').insertAdjacentHTML('beforeend', `
-        <div class="card mb-3">
-            <div class="card-header d-flex justify-content-between">
-                Vision / Mission
-                <button type="button" class="btn btn-sm btn-danger" onclick="this.closest('.card').remove()">حذف</button>
-            </div>
-            <div class="card-body row">
+            <div class="card mb-3">
+                <div class="card-header d-flex justify-content-between">
+                    Vision / Mission
+                    <button type="button" class="btn btn-sm btn-danger" onclick="this.closest('.card').remove()">حذف</button>
+                </div>
+                <div class="card-body row">
 
-                <div class="col-md-4 mb-2">
-                    <input type="text" name="visions[${visionIndex}][title_ar]" class="form-control" placeholder="عنوان عربي">
+                    <div class="col-md-4 mb-2">
+                        <input type="text" name="visions[${visionIndex}][title_ar]" class="form-control" placeholder="عنوان عربي">
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <input type="text" name="visions[${visionIndex}][title_en]" class="form-control" placeholder="Title EN">
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <textarea name="visions[${visionIndex}][description_ar]" class="form-control" placeholder="وصف عربي"></textarea>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <textarea name="visions[${visionIndex}][description_en]" class="form-control" placeholder="Description EN"></textarea>
+                    </div>
                 </div>
-                <div class="col-md-4 mb-2">
-                    <input type="text" name="visions[${visionIndex}][title_en]" class="form-control" placeholder="Title EN">
-                </div>
-                <div class="col-md-6 mb-2">
-                    <textarea name="visions[${visionIndex}][description_ar]" class="form-control" placeholder="وصف عربي"></textarea>
-                </div>
-                <div class="col-md-6 mb-2">
-                    <textarea name="visions[${visionIndex}][description_en]" class="form-control" placeholder="Description EN"></textarea>
-                </div>
-            </div>
-        </div>`);
+            </div>`);
             visionIndex++;
         }
 
         function addContent() {
             document.getElementById('contentRepeater').insertAdjacentHTML('beforeend', `
-        <div class="card mb-3">
-            <div class="card-header d-flex justify-content-between">
-                قسم
-                <button type="button" class="btn btn-sm btn-danger" onclick="this.closest('.card').remove()">حذف</button>
-            </div>
-            <div class="card-body row">
-                <div class="col-md-6 mb-2">
-                    <input type="text" name="contents[${contentIndex}][title_ar]" class="form-control" placeholder="عنوان عربي">
+            <div class="card mb-3">
+                <div class="card-header d-flex justify-content-between">
+                    قسم
+                    <button type="button" class="btn btn-sm btn-danger" onclick="this.closest('.card').remove()">حذف</button>
                 </div>
-                <div class="col-md-6 mb-2">
-                    <input type="text" name="contents[${contentIndex}][title_en]" class="form-control" placeholder="Title EN">
+                <div class="card-body row">
+                    <div class="col-md-6 mb-2">
+                        <input type="text" name="contents[${contentIndex}][title_ar]" class="form-control" placeholder="عنوان عربي">
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <input type="text" name="contents[${contentIndex}][title_en]" class="form-control" placeholder="Title EN">
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <textarea name="contents[${contentIndex}][description_ar]" class="form-control" placeholder="وصف عربي"></textarea>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <textarea name="contents[${contentIndex}][description_en]" class="form-control" placeholder="Description EN"></textarea>
+                    </div>
                 </div>
-                <div class="col-md-6 mb-2">
-                    <textarea name="contents[${contentIndex}][description_ar]" class="form-control" placeholder="وصف عربي"></textarea>
-                </div>
-                <div class="col-md-6 mb-2">
-                    <textarea name="contents[${contentIndex}][description_en]" class="form-control" placeholder="Description EN"></textarea>
-                </div>
-            </div>
-        </div>`);
+            </div>`);
             contentIndex++;
         }
 
-        function previewImages(e) {
-            let box = document.getElementById('imagePreview');
-            box.innerHTML = '';
-            [...e.target.files].forEach(f => {
-                let r = new FileReader();
-                r.onload = ev => {
-                    box.innerHTML += `<div class="col-md-2 mb-2"><img src="${ev.target.result}" class="img-fluid"></div>`;
-                };
-                r.readAsDataURL(f);
-            });
-        }
     </script>
 @endsection
