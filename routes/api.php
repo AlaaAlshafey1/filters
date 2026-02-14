@@ -47,6 +47,7 @@ Route::get('services-faqs', [ServicesFaqsController::class, 'index']);
 // Contact Us
 Route::post('contact', [ContactUsController::class, 'store']);
 Route::get('company-details/{section_key}', [CompanyDetailController::class, 'index']);
+Route::get('sectors', [\App\Http\Controllers\API\SectorController::class, 'index']);
 
 // Legal Pages
 Route::prefix('legal')->group(function () {

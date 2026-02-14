@@ -54,11 +54,9 @@ Route::middleware('auth')->group(function () {
         'company-sections',
         CompanySectionController::class
     );
-    Route::resource(
-        'company-details',
-        CompanyDetailController::class
-    );
+    Route::resource('company-details', CompanyDetailController::class);
     Route::resource('blogs', \App\Http\Controllers\BlogController::class);
+    Route::resource('sectors', \App\Http\Controllers\SectorController::class);
 
     Route::get('contact-us', [ContactUsController::class,'index'])->name('admin.contact.index');
     Route::get('contact-us/{contactUsMessage}', [ContactUsController::class,'show'])->name('admin.contact.show');
