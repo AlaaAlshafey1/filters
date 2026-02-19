@@ -104,6 +104,17 @@
             <hr>
 
             {{-- ===================== SECTION 3 ===================== --}}
+            <div class="form-section-title">الصور</div>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label>الصور</label>
+                            <input type="file" name="images[]" class="form-control" multiple>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <hr>
 
@@ -124,22 +135,8 @@
 
             <hr>
 
-            {{-- ===================== SECTION 5 ===================== --}}
-            <div class="form-section-title">أقسام إضافية</div>
 
-            <div id="contentRepeater"></div>
 
-            <button type="button" class="btn btn-sm btn-outline-secondary mb-4" onclick="addContent()">
-                <i class="bx bx-plus"></i> إضافة قسم
-            </button>
-
-            <hr>
-
-            <div class="text-end">
-                <button class="btn btn-primary px-5">
-                    <i class="bx bx-save"></i> حفظ صفحة عن الشركة
-                </button>
-            </div>
 
         </form>
     </div>
@@ -152,52 +149,52 @@
 
         function addVision() {
             document.getElementById('visionRepeater').insertAdjacentHTML('beforeend', `
-                <div class="card mb-3">
-                    <div class="card-header d-flex justify-content-between">
-                        Vision / Mission
-                        <button type="button" class="btn btn-sm btn-danger" onclick="this.closest('.card').remove()">حذف</button>
-                    </div>
-                    <div class="card-body row">
+                        <div class="card mb-3">
+                            <div class="card-header d-flex justify-content-between">
+                                Vision / Mission
+                                <button type="button" class="btn btn-sm btn-danger" onclick="this.closest('.card').remove()">حذف</button>
+                            </div>
+                            <div class="card-body row">
 
-                        <div class="col-md-4 mb-2">
-                            <input type="text" name="visions[${visionIndex}][title_ar]" placeholder="عنوان عربي" class="form-control" placeholder="عنوان عربي">
-                        </div>
-                        <div class="col-md-4 mb-2">
-                            <input type="text" name="visions[${visionIndex}][title_en]" placeholder="Title EN" class="form-control" placeholder="Title EN">
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <textarea name="visions[${visionIndex}][description_ar]" class="form-control" placeholder="وصف عربي"></textarea>
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <textarea name="visions[${visionIndex}][description_en]" class="form-control" placeholder="Description EN"></textarea>
-                        </div>
-                    </div>
-                </div>`);
+                                <div class="col-md-4 mb-2">
+                                    <input type="text" name="visions[${visionIndex}][title_ar]" placeholder="عنوان عربي" class="form-control" placeholder="عنوان عربي">
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <input type="text" name="visions[${visionIndex}][title_en]" placeholder="Title EN" class="form-control" placeholder="Title EN">
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <textarea name="visions[${visionIndex}][description_ar]" class="form-control" placeholder="وصف عربي"></textarea>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <textarea name="visions[${visionIndex}][description_en]" class="form-control" placeholder="Description EN"></textarea>
+                                </div>
+                            </div>
+                        </div>`);
             visionIndex++;
         }
 
         function addContent() {
             document.getElementById('contentRepeater').insertAdjacentHTML('beforeend', `
-                <div class="card mb-3">
-                    <div class="card-header d-flex justify-content-between">
-                        قسم
-                        <button type="button" class="btn btn-sm btn-danger" onclick="this.closest('.card').remove()">حذف</button>
-                    </div>
-                    <div class="card-body row">
-                        <div class="col-md-6 mb-2">
-                            <input type="text" name="contents[${contentIndex}][title_ar]" placeholder="عنوان عربي" class="form-control" placeholder="عنوان عربي">
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <input type="text" name="contents[${contentIndex}][title_en]" placeholder="Title EN" class="form-control" placeholder="Title EN">
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <textarea name="contents[${contentIndex}][description_ar]" placeholder="الوصف العربي" class="form-control" placeholder="وصف عربي"></textarea>
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <textarea name="contents[${contentIndex}][description_en]" placeholder="الوصف الانجليزي" class="form-control" placeholder="Description EN"></textarea>
-                        </div>
-                    </div>
-                </div>`);
+                        <div class="card mb-3">
+                            <div class="card-header d-flex justify-content-between">
+                                قسم
+                                <button type="button" class="btn btn-sm btn-danger" onclick="this.closest('.card').remove()">حذف</button>
+                            </div>
+                            <div class="card-body row">
+                                <div class="col-md-6 mb-2">
+                                    <input type="text" name="contents[${contentIndex}][title_ar]" placeholder="عنوان عربي" class="form-control" placeholder="عنوان عربي">
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <input type="text" name="contents[${contentIndex}][title_en]" placeholder="Title EN" class="form-control" placeholder="Title EN">
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <textarea name="contents[${contentIndex}][description_ar]" placeholder="الوصف العربي" class="form-control" placeholder="وصف عربي"></textarea>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <textarea name="contents[${contentIndex}][description_en]" placeholder="الوصف الانجليزي" class="form-control" placeholder="Description EN"></textarea>
+                                </div>
+                            </div>
+                        </div>`);
             contentIndex++;
         }
 

@@ -29,13 +29,13 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         return response()->json([
-            'slider' => SliderResource::collection(Slider::where('is_active',1)->get()),
-            'slider_features' => SliderFeatureResource::collection(SliderFeature::where('is_active',1)->get()),
+            'slider' => SliderResource::collection(Slider::where('is_active', 1)->get()),
+            'slider_features' => SliderFeatureResource::collection(SliderFeature::where('is_active', 1)->get()),
             'categories' => CategoryResource::collection(Category::whereNull('parent_id')->get()),
-            'products' => ProductResource::collection(Product::with('category','images')->get()),
-            'exclusive_distributors' => ExclusiveDistributorResource::collection(ExclusiveDistributor::where('is_active',1)->get()),
-            'company_detail' => CompanyDetailResource::collection(CompanyDetail::where('section_key','company')->get()),
-            'blogs' => BlogResource::collection(Blog::where('is_active',1)->get()),
+            'products' => ProductResource::collection(Product::with('category', 'images')->get()),
+            'exclusive_distributors' => ExclusiveDistributorResource::collection(ExclusiveDistributor::where('is_active', 1)->get()),
+            'company_detail' => CompanyDetailResource::collection(CompanyDetail::where('section_key', 'company')->get()),
+            'blogs' => BlogResource::collection(Blog::where('is_active', 1)->get()),
         ]);
     }
 
@@ -44,9 +44,8 @@ class HomeController extends Controller
     {
         $lang = $request->header('Accept-Language', 'ar');
 
-        // تفاصيل About Main
-        $aboutMain = CompanyDetail::where('section_key', 'about_main')->first();
-        $aboutMedia = CompanyDetail::where('section_key', 'about_media')->first();
+        // تفاصيل About الموحدة
+        $about = CompanyDetail::where('section_key', 'about_main')->first();
 
         // سيكشنات إضافية
         $visions = CompanySection::where('type', 'vision')->orderBy('order')->get();
@@ -57,13 +56,13 @@ class HomeController extends Controller
 
         return response()->json([
             'about' => [
-                'main' => new CompanyDetailResource($aboutMain),
-                'media' => new CompanyDetailResource($aboutMedia),
+                'main' => $about ? new CompanyDetailResource($about) : null,
+                'media' => $about ? new CompanyDetailResource($about) : null,
                 'visions' => CompanySectionResource::collection($visions),
                 'contents' => CompanySectionResource::collection($contents),
             ],
             'employees' => EmployeeResource::collection($employees),
         ]);
     }
-    
+
 }

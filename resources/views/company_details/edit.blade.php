@@ -165,7 +165,31 @@
             <hr>
 
             {{-- ===================== IMAGES ===================== --}}
-
+            <div class="form-section-title">الصور</div>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row mb-3">
+                        @if($companyDetail->images)
+                            @foreach($companyDetail->images as $img)
+                                <div class="col-md-2 mb-2 image-wrapper" id="img-{{ $loop->index }}">
+                                    <img src="{{ asset('storage/' . $img) }}" class="img-thumbnail"
+                                        style="height: 100px; width: 100%; object-fit: cover;">
+                                    <input type="hidden" name="existing_images[]" value="{{ $img }}">
+                                    <button type="button" class="remove-image-btn"
+                                        onclick="removeExistingImage('{{ $img }}', 'img-{{ $loop->index }}')">×</button>
+                                </div>
+                            @endforeach
+                        @endif
+                    </div>
+                    <div id="deletedImagesContainer"></div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>إضافة صور جديدة</label>
+                            <input type="file" name="images[]" class="form-control" multiple>
+                        </div>
+                    </div>
+                </div>
+            </div>
     </div>
 
     <hr>
@@ -177,46 +201,7 @@
 
     <hr>
 
-    {{-- ===================== CONTENTS ===================== --}}
-    <div class="form-section-title">أقسام إضافية</div>
 
-    <div id="contentRepeater">
-        @foreach($contents as $index => $content)
-            <div class="card mb-3">
-                <div class="card-header d-flex justify-content-between">
-                    قسم
-                    <button type="button" class="btn btn-sm btn-danger" onclick="this.closest('.card').remove()">حذف</button>
-                </div>
-                <div class="card-body row">
-                    <div class="col-md-6 mb-2">
-                        <input type="text" name="contents[{{ $index }}][title_ar]" value="{{ $content->title_ar }}"
-                            class="form-control">
-                    </div>
-
-                    <div class="col-md-6 mb-2">
-                        <input type="text" name="contents[{{ $index }}][title_en]" value="{{ $content->title_en }}"
-                            class="form-control">
-                    </div>
-
-                    <div class="col-md-6 mb-2">
-                        <textarea name="contents[{{ $index }}][description_ar]"
-                            class="form-control">{{ $content->description_ar }}</textarea>
-                    </div>
-
-                    <div class="col-md-6 mb-2">
-                        <textarea name="contents[{{ $index }}][description_en]"
-                            class="form-control">{{ $content->description_en }}</textarea>
-                    </div>
-                </div>
-            </div>
-        @endforeach
-    </div>
-
-    <button type="button" class="btn btn-sm btn-outline-secondary mb-4" onclick="addContent()">
-        <i class="bx bx-plus"></i> إضافة قسم
-    </button>
-
-    <hr>
 
     <div class="text-end">
         <button class="btn btn-primary px-5">
@@ -235,54 +220,64 @@
 
         function addVision() {
             document.getElementById('visionRepeater').insertAdjacentHTML('beforeend', `
-                            <div class="card mb-3">
-                                <div class="card-header d-flex justify-content-between">
-                                    عنصر
-                                    <button type="button" class="btn btn-sm btn-danger" onclick="this.closest('.card').remove()">حذف</button>
-                                </div>
-                                <div class="card-body row">
-                                    <div class="col-md-4 mb-2">
-                                        <input type="text" name="visions[${visionIndex}][title_ar]" placeholder="عنوان عربي" class="form-control">
-                                    </div>
-                                    <div class="col-md-4 mb-2">
-                                        <input type="text" name="visions[${visionIndex}][title_en]" placeholder="Title EN" class="form-control">
-                                    </div>
-                                    <div class="col-md-6 mb-2">
-                                        <textarea name="visions[${visionIndex}][description_ar]" placeholder="وصف عربي" class="form-control"></textarea>
-                                    </div>
-                                    <div class="col-md-6 mb-2">
-                                        <textarea name="visions[${visionIndex}][description_en]" placeholder="Description EN" class="form-control"></textarea>
-                                    </div>
-                                </div>
-                            </div>`);
+                                        <div class="card mb-3">
+                                            <div class="card-header d-flex justify-content-between">
+                                                عنصر
+                                                <button type="button" class="btn btn-sm btn-danger" onclick="this.closest('.card').remove()">حذف</button>
+                                            </div>
+                                            <div class="card-body row">
+                                                <div class="col-md-4 mb-2">
+                                                    <input type="text" name="visions[${visionIndex}][title_ar]" placeholder="عنوان عربي" class="form-control">
+                                                </div>
+                                                <div class="col-md-4 mb-2">
+                                                    <input type="text" name="visions[${visionIndex}][title_en]" placeholder="Title EN" class="form-control">
+                                                </div>
+                                                <div class="col-md-6 mb-2">
+                                                    <textarea name="visions[${visionIndex}][description_ar]" placeholder="وصف عربي" class="form-control"></textarea>
+                                                </div>
+                                                <div class="col-md-6 mb-2">
+                                                    <textarea name="visions[${visionIndex}][description_en]" placeholder="Description EN" class="form-control"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>`);
             visionIndex++;
         }
 
         function addContent() {
             document.getElementById('contentRepeater').insertAdjacentHTML('beforeend', `
-                            <div class="card mb-3">
-                                <div class="card-header d-flex justify-content-between">
-                                    قسم
-                                    <button type="button" class="btn btn-sm btn-danger" onclick="this.closest('.card').remove()">حذف</button>
-                                </div>
-                                <div class="card-body row">
-                                    <div class="col-md-6 mb-2">
-                                        <input type="text" name="contents[${contentIndex}][title_ar]" placeholder="عنوان عربي" class="form-control">
-                                    </div>
-                                    <div class="col-md-6 mb-2">
-                                        <input type="text" name="contents[${contentIndex}][title_en]" placeholder="Title EN" class="form-control">
-                                    </div>
-                                    <div class="col-md-6 mb-2">
-                                        <textarea name="contents[${contentIndex}][description_ar]" placeholder="الوصف عربي" class="form-control"></textarea>
-                                    </div>
-                                    <div class="col-md-6 mb-2">
-                                        <textarea name="contents[${contentIndex}][description_en]" placeholder="الوصف الانجليزي" class="form-control"></textarea>
-                                    </div>
-                                </div>
-                            </div>`);
+                                        <div class="card mb-3">
+                                            <div class="card-header d-flex justify-content-between">
+                                                قسم
+                                                <button type="button" class="btn btn-sm btn-danger" onclick="this.closest('.card').remove()">حذف</button>
+                                            </div>
+                                            <div class="card-body row">
+                                                <div class="col-md-6 mb-2">
+                                                    <input type="text" name="contents[${contentIndex}][title_ar]" placeholder="عنوان عربي" class="form-control">
+                                                </div>
+                                                <div class="col-md-6 mb-2">
+                                                    <input type="text" name="contents[${contentIndex}][title_en]" placeholder="Title EN" class="form-control">
+                                                </div>
+                                                <div class="col-md-6 mb-2">
+                                                    <textarea name="contents[${contentIndex}][description_ar]" placeholder="الوصف عربي" class="form-control"></textarea>
+                                                </div>
+                                                <div class="col-md-6 mb-2">
+                                                    <textarea name="contents[${contentIndex}][description_en]" placeholder="الوصف الانجليزي" class="form-control"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>`);
             contentIndex++;
         }
 
 
+        function removeExistingImage(path, id) {
+            if (confirm('هل أنت متأكد من حذف هذه الصورة؟')) {
+                document.getElementById(id).remove();
+                let input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'deleted_images[]';
+                input.value = path;
+                document.getElementById('deletedImagesContainer').appendChild(input);
+            }
+        }
     </script>
 @endsection
